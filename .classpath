@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="lib/guava-15.0.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/httpclient-4.3.3.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar" sourcepath="C:/Users/Mr.Chen RunFENG/.m2/repository/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/jedis-2.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/json-path-0.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/json-smart-1.1.1.jar"/>
