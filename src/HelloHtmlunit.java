@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlBody;
+import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLDivElement;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 
 import java.awt.List;
@@ -16,12 +17,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jetty.util.UrlEncoded;
 
@@ -54,19 +52,40 @@ public class HelloHtmlunit {
         String Stimemillis=String.valueOf(System.currentTimeMillis());
         WebRequest webRequestList =getwebrequest(CM, getpage1url(keyword, Stimemillis), url0);
        HtmlPage htBody= webClient.getPage(webRequestList);
-        //System.out.print(htBody.asXml());
-        getResult(htBody);
+       java.util.List<?> lsthtmlDivElement=htBody.getByXPath("//div[@class='pagerTitleCell']");
+       HtmlDivision htmlDivElement=(HtmlDivision)lsthtmlDivElement.get(0);
+       String divtextString=htmlDivElement.getTextContent();
+       Pattern pattern=Pattern.compile("[^0-9]");
+       Matcher m = pattern.matcher(divtextString); 
+       int intpagesum=Integer.valueOf(m.replaceAll("").trim());
+       getResult(htBody,1);
+       int i=intpagesum/20+1;
+       for (int j = 2; j <=i; j++) {
+    	   if (j==2) {
+    		   WebRequest webRequest=getwebrequest(CM, getPageURL(j), getpage1url(keyword, Stimemillis));
+               HtmlPage pagehtml= webClient.getPage(webRequest);
+               // System.out.println(pagehtml.asXml());        
+               getResult(pagehtml,j);		
+		}
+    	   else {
+    		   int pj=j-1;
+    		   WebRequest webRequest=getwebrequest(CM, getPageURL(j), getPageURL(pj));
+               HtmlPage pagehtml= webClient.getPage(webRequest);
+               if(j==17)
+            	   System.out.println(pagehtml.asXml());                        
+               getResult(pagehtml,j);
+		}
+	}
         System.out.println("ÇëÊäÈëÒ³Âë:");
-        int page=scanner.nextInt();
-        WebRequest webRequest=getwebrequest(CM, getPageURL(page), getpage1url(keyword, Stimemillis));
-        HtmlPage pagehtml= webClient.getPage(webRequest);
-       // System.out.println(pagehtml.asXml());
-        getResult(pagehtml);
+        //int page=scanner.nextInt();
+        
+        
         webClient.closeAllWindows();
 	}
 
-	public static void getResult(HtmlPage htmlpage) {
+	public static void getResult(HtmlPage htmlpage,int i) {
 		java.util.List<?> LhtmlInput=htmlpage.getByXPath("//table[@class='GridTableContent']/tbody/tr/td[10]/div/input");
+		System.out.println(i+"\r\n");
         for (Object object : LhtmlInput) {
         	HtmlInput htmlInput=(HtmlInput)object;
         	String outstrvalue=htmlInput.getDefaultValue();
