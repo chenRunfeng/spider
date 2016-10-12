@@ -29,4 +29,5 @@ public interface Scheduler {
      * @return the url to crawl
      */
     public WebRequest poll();
+    public boolean isEmpty();		
 }

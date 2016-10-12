@@ -68,11 +68,14 @@ public class HelloHtmlunit {
                getResult(pagehtml,j);		
 		}
     	   else {
+    		   Thread.sleep(500);
     		   int pj=j-1;
     		   WebRequest webRequest=getwebrequest(CM, getPageURL(j), getPageURL(pj));
                HtmlPage pagehtml= webClient.getPage(webRequest);
-               if(j==17)
-            	   System.out.println(pagehtml.asXml());                        
+               if(j==17){
+            	   System.out.println(pagehtml.asXml());  
+            	   
+               }            	                         
                getResult(pagehtml,j);
 		}
 	}

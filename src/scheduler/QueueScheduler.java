@@ -21,11 +21,15 @@ public class QueueScheduler implements Scheduler{
 
     @Override
     public void push(WebRequest request) {
-        queue.add(request);
+        queue.offer(request);
     }
 
     @Override
     public synchronized WebRequest poll() {
         return queue.poll();
+    }
+    @Override
+    public boolean isEmpty(){
+    	return queue.isEmpty();
     }
 }

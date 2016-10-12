@@ -27,4 +27,14 @@ public interface PageProcessor {
      * @param HtmlPage page
      */
     public void process(HtmlPage  page);
+    /**
+     * get the start url
+     * @param String starturl
+     */
+    public String getStarturl();
+    /**
+     * subordinate url page handle
+     * @param page
+     */
+    public void nextprocess(HtmlPage page) ;		
 }
