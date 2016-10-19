@@ -2,9 +2,6 @@ package common;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import us.codecraft.webmagic.Request;
-import us.codecraft.webmagic.ResultItems;
-
 /**
  * 
  */

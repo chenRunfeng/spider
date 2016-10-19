@@ -3,7 +3,7 @@
  */
 package pipeline;
 
-import us.codecraft.webmagic.ResultItems;
+import common.ResultItem;
 
 /**
  * Pipeline is the persistent and offline process part of crawler.
@@ -18,5 +18,6 @@ public interface PipeLine {
      *
      * @param resultItems resultItems
      */
-    public void process(ResultItems resultItems);
+    public void process(ResultItem resultItem);
+    public void close();
 }

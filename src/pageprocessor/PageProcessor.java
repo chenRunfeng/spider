@@ -5,9 +5,6 @@ package pageprocessor;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.Site;
-
 /**
  *  *Interface to be implemented to customize a crawler.<br>
  * <br>

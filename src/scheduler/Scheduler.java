@@ -1,10 +1,6 @@
 package scheduler;
 
 import com.gargoylesoftware.htmlunit.WebRequest;
-
-import us.codecraft.webmagic.Request;
-import us.codecraft.webmagic.Task;
-
 /*
  * Scheduler is the part of url management.
  * You can implement interface Scheduler to do:
@@ -29,5 +25,6 @@ public interface Scheduler {
      * @return the url to crawl
      */
     public WebRequest poll();
-    public boolean isEmpty();		
+    public boolean isEmpty();
+    public void clear();
 }

@@ -3,9 +3,11 @@
  */
 package common;
 
+import java.awt.List;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +21,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 
 import pageprocessor.PageProcessor;
+import pipeline.MySQLPipeLine;
 import pipeline.PipeLine;
 import scheduler.Scheduler;
 import downloader.Downloader;
@@ -30,7 +33,6 @@ import downloader.HtmlUnitDownloader;
  *
  */
 public class Spider {
-  private ExecutorService cachedThreadPool = Executors.newCachedThreadPool(); 
   protected Downloader downloader;
   protected PageProcessor pageProcessor;
   protected Scheduler scheduler;
@@ -60,9 +62,11 @@ public class Spider {
   public Spider(PageProcessor pageProcessor) {
       this.pageProcessor = pageProcessor;
       this.starturl=pageProcessor.getStarturl();
+      this.pipeLine=new MySQLPipeLine();
       webClient.getOptions().setJavaScriptEnabled(false);
       webClient.getOptions().setCssEnabled(false);
       webClient.getCookieManager().setCookiesEnabled(true);
+      //webClient.getOptions().setTimeout(10000);
       this.downloader=new HtmlUnitDownloader(webClient);
   }
   public static void Stop() {
@@ -70,6 +74,9 @@ public class Spider {
 }
   public void setSceduler(Scheduler scheduler){
 	  this.scheduler=scheduler;
+  }
+  public void setPipeLine(PipeLine pipeLine){
+	  this.pipeLine=pipeLine;
   }
   public void Start(String url) throws FailingHttpStatusCodeException, IOException{
 //	 Runnable r= new Runnable() {
@@ -90,7 +97,13 @@ public class Spider {
 //		}
 //	});
 }
-  public void setResultItem(String nexturl,String refererString) throws MalformedURLException {
+  public void savetomysql(ArrayList<ResultItem> lisreResultItems){
+	  for (int i=0;i<lisreResultItems.size();i++) {
+		pipeLine.process(lisreResultItems.get(i));
+	}
+	  pipeLine.close();
+  } 
+  public void getNextPage(String nexturl,String refererString) throws MalformedURLException {
 	HtmlPage p= downloader.download(getwebrequest(nexturl, refererString)) ;
 	pageProcessor.nextprocess(p);
 }

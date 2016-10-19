@@ -32,4 +32,8 @@ public class QueueScheduler implements Scheduler{
     public boolean isEmpty(){
     	return queue.isEmpty();
     }
+    @Override
+    public void clear(){
+    	queue.clear();
+    }
 }
